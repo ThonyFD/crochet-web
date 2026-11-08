@@ -1,0 +1,113 @@
+/* Scrapbook building blocks, values taken from docs/superpowers/specs/mockups/logo-y-producto.html */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hand {
+  font-family: var(--font-hand);
+}
+
+/* papers */
+.gingham {
+  background-color: var(--pink-100);
+  background-image:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    linear-gradient(rgba(255, 255, 255, 0.5) 50%, transparent 50%);
+  background-size: 18px 18px;
+}
+.dots {
+  background: var(--blue-100) radial-gradient(#fff 1.8px, transparent 2px) 0 0 / 14px 14px;
+}
+.stripes {
+  background: repeating-linear-gradient(90deg, var(--lavender-100) 0 12px, var(--lavender-25) 12px 24px);
+}
+.dotted-paper {
+  background: var(--paper) radial-gradient(var(--dot) 1.3px, transparent 1.5px) 0 0 / 20px 20px;
+}
+.ruled {
+  background-color: #fff;
+  background-image: repeating-linear-gradient(transparent 0 27px, var(--rule) 27px 28px);
+  line-height: 28px;
+  box-shadow: var(--shadow-paper);
+}
+.torn {
+  clip-path: polygon(0 3%, 8% 0, 20% 4%, 33% 1%, 47% 3%, 60% 0, 74% 4%, 88% 1%, 100% 3%, 98% 50%, 100% 97%, 85% 100%, 70% 96%, 55% 100%, 40% 97%, 25% 100%, 10% 96%, 0 100%, 2% 50%);
+}
+.burst {
+  clip-path: polygon(50% 0, 61% 30%, 95% 20%, 72% 48%, 100% 70%, 64% 68%, 58% 100%, 43% 72%, 8% 88%, 28% 58%, 0 30%, 36% 32%);
+}
+
+/* washi tape */
+.tape {
+  position: absolute;
+  width: 80px;
+  height: 22px;
+  background: rgba(255, 182, 213, 0.8);
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  z-index: 2;
+  pointer-events: none;
+}
+.tape.y {
+  background: repeating-linear-gradient(45deg, rgba(255, 236, 140, 0.9) 0 6px, rgba(255, 255, 255, 0.6) 6px 12px);
+}
+.tape.b {
+  background: rgba(160, 205, 255, 0.8);
+}
+
+/* hand drawn underline */
+.uline {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'><path d='M0 5 Q 25 1 50 5 T 100 4' stroke='%23ff5fa2' stroke-width='3' fill='none'/></svg>")
+    bottom / 100% 8px no-repeat;
+  padding-bottom: 4px;
+}
+
+/* labels and chips */
+.label-dashed {
+  display: inline-block;
+  background: #fff;
+  border: 2px dashed var(--pink-text);
+  padding: 4px 16px;
+  font-family: var(--font-hand);
+  font-size: 30px;
+  transform: rotate(-2deg);
+  margin: 0;
+  font-weight: 700;
+}
+.tag-price {
+  display: inline-block;
+  background: var(--yellow-50);
+  font-weight: 700;
+  padding: 2px 8px;
+  transform: rotate(-3deg);
+}
+.pill {
+  padding: 5px 14px;
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  background: #fff;
+  font: 700 14px var(--font-body);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 var(--line);
+  cursor: pointer;
+}
+.pill[aria-pressed='true'] {
+  background: var(--pink-50);
+}
+
+/* logo as a sewn patch / sticker */
+.logo {
+  display: block;
+  border-radius: 50%;
+  filter: drop-shadow(2px 4px 5px rgba(0, 0, 0, 0.3));
+}

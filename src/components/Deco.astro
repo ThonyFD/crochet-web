@@ -1,0 +1,45 @@
+---
+// Hand drawn decorations. Purely visual.
+interface Props {
+  kind: 'star' | 'heart' | 'sparkle' | 'burst';
+  color: string;
+  size?: number;
+  class?: string;
+  style?: string;
+}
+
+const { kind, color, size = 34, class: className, style } = Astro.props;
+
+const paths: Record<Props['kind'], string> = {
+  star: 'M50 6 L61 37 L94 38 L68 58 L77 91 L50 72 L22 91 L32 58 L6 38 L39 37 Z',
+  heart: 'M50 88 C20 66 6 50 6 32 C6 18 17 8 30 8 C40 8 46 14 50 22 C54 14 60 8 70 8 C83 8 94 18 94 32 C94 50 80 66 50 88 Z',
+  sparkle: 'M50 4 C54 36 64 46 96 50 C64 54 54 64 50 96 C46 64 36 54 4 50 C36 46 46 36 50 4 Z',
+  burst: 'M50 0 L61 30 L95 20 L72 48 L100 70 L64 68 L58 100 L43 72 L8 88 L28 58 L0 30 L36 32 Z',
+};
+---
+
+<svg
+  class:list={['deco', className]}
+  style={style}
+  width={size}
+  height={size}
+  viewBox="0 0 100 100"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path
+    d={paths[kind]}
+    fill={color}
+    stroke={kind === 'burst' ? 'none' : 'rgba(43,43,43,.55)'}
+    stroke-width="3"
+    stroke-linejoin="round"
+  ></path>
+</svg>
+
+<style>
+  .deco {
+    position: absolute;
+    z-index: 4;
+    pointer-events: none;
+  }
+</style>

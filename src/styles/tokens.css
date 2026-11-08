@@ -1,0 +1,86 @@
+@import '@fontsource/caveat/600.css';
+@import '@fontsource/caveat/700.css';
+@import '@fontsource/nunito/400.css';
+@import '@fontsource/nunito/700.css';
+@import '@fontsource/abril-fatface/400.css';
+@import '@fontsource/rubik-mono-one/400.css';
+@import '@fontsource/special-elite/400.css';
+
+:root {
+  --cream: #fbf6ea;
+  --paper: #fffdf7;
+  --ink: #3a2f3a;
+  --line: #2b2b2b;
+  --dash: #d9cdb5;
+  --dot: #d9d2c3;
+  --rule: #cfe3f3;
+
+  --pink-50: #ffd6e7;
+  --pink-100: #f6c9dd;
+  --pink-400: #ff5fa2;
+  --pink-text: #b8175a;
+  --yellow-50: #fff3a8;
+  --yellow-400: #ffd23f;
+  --orange-400: #ff8a3d;
+  --blue-50: #d7ecff;
+  --blue-100: #bfe3ee;
+  --blue-400: #7aa7ff;
+  --lavender-50: #e6dcff;
+  --lavender-100: #e8dcff;
+  --lavender-25: #f7f1ff;
+  --green-wa: #7ed99b;
+
+  --font-hand: 'Caveat', cursive;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --font-cut-a: 'Abril Fatface', serif;
+  --font-cut-b: 'Rubik Mono One', sans-serif;
+  --font-cut-c: 'Special Elite', monospace;
+
+  --shadow-paper: 2px 4px 10px rgba(0, 0, 0, 0.2);
+  --shadow-chip: 1px 2px 3px rgba(0, 0, 0, 0.25);
+  --max: 1100px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--pink-text);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

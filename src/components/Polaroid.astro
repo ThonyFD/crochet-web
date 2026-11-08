@@ -1,0 +1,122 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  caption?: string;
+  href?: string;
+  price?: string;
+  waHref?: string;
+  tape?: 'pink' | 'yellow' | 'blue' | 'none';
+  priceStyle?: 'tag' | 'bubble';
+  widths?: number[];
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
+  class?: string;
+  style?: string;
+}
+
+const {
+  image,
+  alt,
+  caption,
+  href,
+  price,
+  waHref,
+  tape = 'pink',
+  priceStyle = 'tag',
+  widths = [240, 360, 480, 720],
+  sizes = '(max-width: 768px) 45vw, 240px',
+  loading = 'lazy',
+  class: className,
+  style,
+} = Astro.props;
+
+const tapeClass = { pink: 'tape', yellow: 'tape y', blue: 'tape b', none: '' }[tape];
+const Wrap = href ? 'a' : 'div';
+---
+
+<figure class:list={['polaroid', className]} style={style}>
+  {tapeClass && <span class={tapeClass} aria-hidden="true" />}
+  <Wrap class="polaroid__link" href={href}>
+    <Image src={image} alt={alt} widths={widths} sizes={sizes} loading={loading} class="polaroid__img" />
+    {caption && <figcaption class="polaroid__cap">{caption}</figcaption>}
+  </Wrap>
+  {price && priceStyle === 'bubble' && <span class="polaroid__bubble">{price}</span>}
+  {
+    (price && priceStyle === 'tag') || waHref ? (
+      <div class="polaroid__meta">
+        {price && priceStyle === 'tag' && <span class="tag-price">{price}</span>}
+        {waHref && (
+          <a class="polaroid__wa" href={waHref} target="_blank" rel="noopener" aria-label={`Pedir ${caption ?? alt} por WhatsApp`}>
+            💬 pedir
+          </a>
+        )}
+      </div>
+    ) : null
+  }
+</figure>
+
+<style>
+  .polaroid {
+    position: relative;
+    margin: 0;
+    background: #fff;
+    padding: 8px 8px 10px;
+    box-shadow: var(--shadow-paper);
+  }
+  .polaroid__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  .polaroid__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+  }
+  .polaroid__cap {
+    font-family: var(--font-hand);
+    font-size: 22px;
+    text-align: center;
+    margin-top: 6px;
+    line-height: 1;
+  }
+  .polaroid__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  .polaroid__wa {
+    background: var(--green-wa);
+    border: 2px solid var(--line);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-weight: 700;
+    font-size: 12px;
+    text-decoration: none;
+    color: #123;
+    white-space: nowrap;
+  }
+  .polaroid__bubble {
+    position: absolute;
+    right: -12px;
+    bottom: 30px;
+    background: var(--yellow-50);
+    font-family: var(--font-hand);
+    font-weight: 700;
+    font-size: 22px;
+    padding: 4px 10px;
+    border-radius: 50%;
+    transform: rotate(10deg);
+    box-shadow: var(--shadow-chip);
+    z-index: 3;
+  }
+</style>
