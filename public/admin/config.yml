@@ -99,6 +99,38 @@ collections:
         default: 100
         hint: Los números más bajos aparecen primero.
 
+  - name: gallery
+    label: Galería de fotos
+    label_singular: Foto
+    description: Las fotos de "sobre mí" (ferias, momentos tejiendo). Se ven como polaroids.
+    folder: src/content/gallery
+    path: '{{slug}}/index'
+    extension: yml
+    format: yaml
+    media_folder: ''
+    public_folder: ''
+    create: true
+    slug: '{{caption}}'
+    identifier_field: caption
+    summary: '{{caption}}'
+    thumbnail: photo
+    sortable_fields: [order, caption]
+    fields:
+      - name: photo
+        label: Foto
+        widget: image
+        hint: Mejor en vertical. Súbela desde aquí (no desde la biblioteca de Medios).
+      - name: caption
+        label: Texto escrito a mano
+        required: false
+        hint: 'Corto, por ejemplo "feria navideña ♡"'
+      - name: order
+        label: Orden
+        widget: number
+        value_type: int
+        default: 100
+        hint: Los números más bajos aparecen primero.
+
   - name: categories
     label: Categorías
     label_singular: Categoría
@@ -130,13 +162,3 @@ collections:
           - { name: aboutTitle, label: Título de "sobre mí" }
           - { name: aboutText, label: Texto de "sobre mí", widget: text }
           - { name: aboutPhoto, label: Foto de "sobre mí", widget: image }
-          - name: gallery
-            label: Galería de "sobre mí"
-            label_singular: Foto
-            widget: list
-            required: false
-            hint: Fotos de ferias y momentos tejiendo. Se ven como polaroids; puedes reordenarlas arrastrando.
-            summary: '{{caption}}'
-            fields:
-              - { name: photo, label: Foto, widget: image }
-              - { name: caption, label: Texto escrito a mano, required: false, hint: 'Corto, por ejemplo "feria navideña ♡"' }

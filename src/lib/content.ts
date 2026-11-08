@@ -18,3 +18,10 @@ export async function getSettings() {
   if (!site) throw new Error('Missing src/content/settings/site.yml');
   return site.data;
 }
+
+export async function getGallery() {
+  const entries = await getCollection('gallery');
+  return entries
+    .map(({ id, data }) => ({ id, ...data }))
+    .sort((a, b) => a.order - b.order || a.id.localeCompare(b.id));
+}

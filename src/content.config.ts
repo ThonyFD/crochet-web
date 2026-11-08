@@ -43,8 +43,17 @@ const settings = defineCollection({
       aboutTitle: z.string(),
       aboutText: z.string(),
       aboutPhoto: image(),
-      gallery: z.array(z.object({ photo: image(), caption: z.string().optional() })).default([]),
     }),
 });
 
-export const collections = { products, categories, settings };
+const gallery = defineCollection({
+  loader: glob({ pattern: '*/index.yml', base: './src/content/gallery', generateId: ({ entry }) => entry.split('/')[0] }),
+  schema: ({ image }) =>
+    z.object({
+      photo: image(),
+      caption: z.string().optional(),
+      order: z.number().default(100),
+    }),
+});
+
+export const collections = { products, categories, settings, gallery };

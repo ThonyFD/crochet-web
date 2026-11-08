@@ -54,13 +54,20 @@ describe('initial catalog', () => {
     expect(existsSync(join(dirname('src/content/settings/site.yml'), site.aboutPhoto))).toBe(true);
   });
 
-  test('about gallery: 12 edited photos that exist', () => {
-    const site = parse(readFileSync('src/content/settings/site.yml', 'utf8'));
-    expect(site.gallery).toHaveLength(12);
-    for (const item of site.gallery) {
-      expect(existsSync(join('src/content/settings', item.photo)), item.photo).toBe(true);
-      expect(item.caption).toBeTruthy();
+  test('about gallery: 12 entries, each with its photo next to it', () => {
+    const dirs = readdirSync('src/content/gallery').filter((d) => existsSync(join('src/content/gallery', d, 'index.yml')));
+    expect(dirs).toHaveLength(12);
+    for (const d of dirs) {
+      const item = parse(readFileSync(join('src/content/gallery', d, 'index.yml'), 'utf8'));
+      expect(existsSync(join('src/content/gallery', d, item.photo)), d).toBe(true);
+      expect(item.caption, d).toBeTruthy();
+      expect(typeof item.order, d).toBe('number');
     }
+  });
+
+  test('captions with # survive yaml (it starts a comment when unquoted)', () => {
+    const item = parse(readFileSync('src/content/gallery/galeria-10/index.yml', 'utf8'));
+    expect(item.caption).toBe('con mi mamá, mi fan #1 ♡');
   });
 });
 
@@ -91,16 +98,25 @@ describe('cms config stays in sync with the content schema', () => {
     );
   });
 
+  test('gallery has its own section in the panel', () => {
+    const gallery = col('gallery');
+    expect(gallery.folder).toBe('src/content/gallery');
+    expect(gallery.path).toBe('{{slug}}/index');
+    expect(gallery.extension).toBe('yml');
+    expect(gallery.create).toBe(true);
+    expect(gallery.delete).not.toBe(false);
+    expect(gallery.media_folder).toBe('');
+    expect(gallery.public_folder).toBe('');
+    expect(fieldNames(gallery)).toEqual(['caption', 'order', 'photo']);
+  });
+
   test('categories and settings', () => {
     expect(col('categories').folder).toBe('src/content/categories');
     expect(col('categories').extension).toBe('yml');
     expect(fieldNames(col('categories'))).toEqual(['label', 'order']);
     const site = col('settings').files.find((f: { name: string }) => f.name === 'site');
     expect(site.file).toBe('src/content/settings/site.yml');
-    expect(fieldNames(site)).toEqual(['aboutPhoto', 'aboutText', 'aboutTitle', 'gallery', 'heroTagline', 'instagram', 'whatsapp']);
-    const gallery = site.fields.find((f: { name: string }) => f.name === 'gallery');
-    expect(gallery.widget).toBe('list');
-    expect(fieldNames(gallery)).toEqual(['caption', 'photo']);
+    expect(fieldNames(site)).toEqual(['aboutPhoto', 'aboutText', 'aboutTitle', 'heroTagline', 'instagram', 'whatsapp']);
   });
 });
 

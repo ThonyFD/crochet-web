@@ -3,9 +3,14 @@ import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Catalog from '../components/Catalog.astro';
 import About from '../components/About.astro';
-import { getCategories, getProducts, getSettings } from '../lib/content';
+import { getCategories, getGallery, getProducts, getSettings } from '../lib/content';
 
-const [products, categories, site] = await Promise.all([getProducts(), getCategories(), getSettings()]);
+const [products, categories, site, gallery] = await Promise.all([
+  getProducts(),
+  getCategories(),
+  getSettings(),
+  getGallery(),
+]);
 ---
 
 <Base
@@ -14,5 +19,5 @@ const [products, categories, site] = await Promise.all([getProducts(), getCatego
 >
   <Hero products={products} tagline={site.heroTagline} whatsapp={site.whatsapp} />
   <Catalog products={products} categories={categories} whatsapp={site.whatsapp} />
-  <About title={site.aboutTitle} text={site.aboutText} photo={site.aboutPhoto} gallery={site.gallery} />
+  <About title={site.aboutTitle} text={site.aboutText} photo={site.aboutPhoto} gallery={gallery} />
 </Base>

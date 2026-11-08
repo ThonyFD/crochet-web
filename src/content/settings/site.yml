@@ -1,4 +1,4 @@
-whatsapp: '50765839292'
+whatsapp: "50765839292"
 instagram: https://www.instagram.com/starsandstuffcrochet/
 heroTagline: Amigurumis, flores y accesorios tejidos a mano con mucho cariño en Panamá. Colores a tu gusto ✦
 aboutTitle: ¡hola! soy la creadora de Stars & Stuff ♡
@@ -11,28 +11,3 @@ aboutText: |-
 
   ¿Tienes una idea o quieres regalar algo especial? Escríbeme por WhatsApp y lo hacemos realidad.
 aboutPhoto: ./about.jpg
-gallery:
-  - photo: ./galeria-01.jpg
-    caption: tejiendo en todos lados ✦
-  - photo: ./galeria-02.jpg
-    caption: rosas que no se marchitan
-  - photo: ./galeria-03.jpg
-    caption: nuestra mesa en la feria
-  - photo: ./galeria-04.jpg
-    caption: feria navideña ♡
-  - photo: ./galeria-05.jpg
-    caption: un punto a la vez
-  - photo: ./galeria-06.jpg
-    caption: lista para la feria
-  - photo: ./galeria-07.jpg
-    caption: conejito recién terminado
-  - photo: ./galeria-08.jpg
-    caption: de paseo con dino
-  - photo: ./galeria-09.jpg
-    caption: otra feria, otra aventura
-  - photo: ./galeria-10.jpg
-    caption: con mi mamá, mi fan #1 ♡
-  - photo: ./galeria-11.jpg
-    caption: tejiendo bajo el rancho
-  - photo: ./galeria-12.jpg
-    caption: manos a la obra
