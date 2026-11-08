@@ -54,7 +54,7 @@ const tapes = ['pink', 'yellow', 'blue'] as const;
               💬 Pedir por WhatsApp
             </StickerButton>
           </div>
-          <Deco kind="heart" color="var(--pink-400)" size={28} style="top:0;right:0" />
+          <Deco kind="heart" color="var(--pink-400)" size={28} style="top:-34px;right:0" />
         </div>
       </div>
 
@@ -85,6 +85,7 @@ const tapes = ['pink', 'yellow', 'blue'] as const;
 <style>
   .prod {
     padding: 26px clamp(16px, 4vw, 40px) 50px;
+    overflow-x: clip;
   }
   .in {
     max-width: var(--max);
@@ -102,7 +103,7 @@ const tapes = ['pink', 'yellow', 'blue'] as const;
   }
   .wrap {
     display: grid;
-    grid-template-columns: 1.1fr 1fr;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
     gap: 48px;
     align-items: start;
   }
@@ -149,7 +150,7 @@ const tapes = ['pink', 'yellow', 'blue'] as const;
   }
   @media (max-width: 767px) {
     .wrap {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 36px;
     }
     .info {

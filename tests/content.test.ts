@@ -65,7 +65,7 @@ describe('cms config stays in sync with the content schema', () => {
     expect(cms.backend.repo).toBe('ThonyFD/crochet-web');
     expect(cms.backend.branch).toBe('main');
     expect(cms.output.omit_empty_optional_fields).toBe(true);
-    expect(cms.locale).toBe('es');
+    expect(cms.locale).toBeUndefined(); // Sveltia ignores it and follows the browser language
   });
 
   test('products collection matches the schema keys', () => {

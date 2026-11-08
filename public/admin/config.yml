@@ -6,9 +6,9 @@ backend:
   # URL del worker sveltia-cms-auth (ver docs/GUIA.md, paso 2)
   # base_url: https://sveltia-cms-auth.<tu-cuenta>.workers.dev
 
-locale: es
 site_url: https://starsandstuff.pages.dev
-logo_url: /favicon.png
+logo:
+  src: /favicon.png
 
 media_folder: /public/uploads
 public_folder: /uploads

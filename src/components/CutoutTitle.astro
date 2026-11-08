@@ -5,25 +5,29 @@ interface Props {
   as?: 'h1' | 'h2' | 'div';
   size?: 'lg' | 'md' | 'sm';
   class?: string;
+  /** Forced line breaks, e.g. ['Stars', '& Stuff']. Defaults to wrapping between words. */
+  lines?: string[];
 }
 
-const { text, as: Tag = 'div', size = 'lg', class: className } = Astro.props;
-const words = text.toUpperCase().split(/\s+/).filter(Boolean);
+const { text, as: Tag = 'div', size = 'lg', class: className, lines } = Astro.props;
+const rows = (lines ?? [text]).map((line) => line.toUpperCase().split(/\s+/).filter(Boolean));
 ---
 
 <Tag class:list={['cutout', `cutout--${size}`, className]}>
   <span class="sr-only">{text}</span>
-  <span class="letters" aria-hidden="true">
-    {
-      words.map((word) => (
-        <span class="word">
-          {[...word].map((ch) => (
-            <span class="cut">{ch}</span>
-          ))}
-        </span>
-      ))
-    }
-  </span>
+  {
+    rows.map((words) => (
+      <span class="letters" aria-hidden="true">
+        {words.map((word) => (
+          <span class="word">
+            {[...word].map((ch) => (
+              <span class="cut">{ch}</span>
+            ))}
+          </span>
+        ))}
+      </span>
+    ))
+  }
 </Tag>
 
 <style>
@@ -34,12 +38,14 @@ const words = text.toUpperCase().split(/\s+/).filter(Boolean);
   }
   .letters {
     display: flex;
+    margin-bottom: 10px;
     flex-wrap: wrap;
     gap: 10px 16px;
   }
   .word {
     display: inline-flex;
-    white-space: nowrap;
+    flex-wrap: wrap;
+    row-gap: 10px;
   }
   .cut {
     display: inline-block;
@@ -82,7 +88,12 @@ const words = text.toUpperCase().split(/\s+/).filter(Boolean);
     --cut-size: clamp(30px, 6vw, 40px);
   }
   .cutout--md {
-    --cut-size: clamp(22px, 4.5vw, 32px);
+    --cut-size: clamp(20px, 4.5vw, 32px);
+  }
+  @media (max-width: 480px) {
+    .cutout--md .cut {
+      padding: 2px 6px;
+    }
   }
   .cutout--sm {
     --cut-size: 24px;

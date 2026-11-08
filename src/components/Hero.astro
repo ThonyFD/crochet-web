@@ -57,7 +57,7 @@ const at = tagline.indexOf(UNDERLINED);
     </div>
 
     <div class="title">
-      <CutoutTitle text="Stars & Stuff" as="h1" />
+      <CutoutTitle text="Stars & Stuff" lines={["Stars", "& Stuff"]} as="h1" />
       <p class="tagline">
         {
           at >= 0 ? (
@@ -91,7 +91,7 @@ const at = tagline.indexOf(UNDERLINED);
     position: relative;
     max-width: var(--max);
     margin: 0 auto;
-    min-height: 520px;
+    min-height: 560px;
   }
   .collage {
     position: absolute;
@@ -147,7 +147,7 @@ const at = tagline.indexOf(UNDERLINED);
     z-index: 4;
   }
   .collage :global(.pic3) {
-    top: 300px;
+    top: 330px;
     right: 60px;
     width: 200px;
     transform: rotate(-3deg);
@@ -171,16 +171,16 @@ const at = tagline.indexOf(UNDERLINED);
   }
   .title {
     position: absolute;
-    top: 60px;
+    top: 44px;
     left: 46%;
-    right: 30px;
+    right: 160px;
     z-index: 5;
   }
   .tagline {
     font-size: 17px;
     line-height: 1.5;
-    margin: 16px 0 20px;
-    max-width: 360px;
+    margin: 8px 0 18px;
+    max-width: 380px;
     background: rgba(251, 246, 234, 0.92);
     padding: 6px 8px;
   }
@@ -220,7 +220,7 @@ const at = tagline.indexOf(UNDERLINED);
     .collage {
       position: relative;
       order: 2;
-      height: 380px;
+      height: 430px;
     }
     .blk1 {
       top: 20px;
@@ -249,9 +249,9 @@ const at = tagline.indexOf(UNDERLINED);
       width: 44%;
     }
     .collage :global(.pic2) {
-      top: 175px;
-      left: 30%;
-      width: 38%;
+      top: 225px;
+      left: 28%;
+      width: 40%;
     }
     .collage :global(.pic3) {
       top: 50px;

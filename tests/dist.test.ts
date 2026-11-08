@@ -13,7 +13,7 @@ describe('home', () => {
   test('h1 reads as real text with decorative letters', () => {
     const h1 = home.querySelector('h1')!;
     expect(h1.querySelector('.sr-only')!.text).toBe('Stars & Stuff');
-    expect(h1.querySelector('[aria-hidden="true"]')!.querySelectorAll('.cut').length).toBeGreaterThan(5);
+    expect(h1.querySelectorAll('[aria-hidden="true"] .cut').length).toBe('STARS&STUFF'.length);
   });
 
   test('catalog has 15 cards linking to product pages', () => {
