@@ -68,7 +68,7 @@ Según mockup, de arriba a abajo:
 Según mockup: miga de pan, foto principal en polaroid sobre gingham + miniaturas (si hay más de una foto), nombre en letras recortadas, precio en etiqueta, descripción, "ficha" en papel rayado (medidas, colores, personalizable, envíos, disponibilidad; solo los campos que tengan dato), botón "Pedir por WhatsApp" con mensaje prellenado, y "también te puede gustar" (4 productos, preferir misma categoría).
 
 ### Mensaje de WhatsApp prellenado
-`¡Hola! Me interesa el <nombre> (<precio>) que vi en la web ✦` y el link a la página del producto. Si el precio es "a consultar", se omite el paréntesis: `¡Hola! Me interesa el <nombre> que vi en la web, ¿me cuentas el precio? ✦`. En tarjetas y etiquetas ese modo se muestra como "consultar". El botón general (sin producto) usa un saludo genérico.
+`¡Hola! Me interesa este tejido: <nombre> (<precio>) que vi en la web ✦` y el link a la página del producto. Si el precio es "a consultar", se omite el paréntesis: `¡Hola! Me interesa este tejido: <nombre> que vi en la web, ¿me cuentas el precio? ✦`. En tarjetas y etiquetas ese modo se muestra como "consultar". El botón general (sin producto) usa un saludo genérico.
 
 ## Modelo de contenido (editable en el CMS)
 
