@@ -1,9 +1,13 @@
-whatsapp: "50765839292"
+whatsapp: '50765839292'
 instagram: https://www.instagram.com/starsandstuffcrochet/
-heroTagline: Amigurumis, flores y accesorios tejidos a mano con mucho cariño en
-  Panamá. Colores a tu gusto ✦
-aboutTitle: ¡hola! soy la de Stars & Stuff ♡
-aboutText: Texto provisional, edítalo desde el panel. Aquí va quién soy, desde
-  cuándo tejo y por qué cada pieza se hace por pedido, con los colores que tú
-  elijas.
+heroTagline: Amigurumis, flores y accesorios tejidos a mano con mucho cariño en Panamá. Colores a tu gusto ✦
+aboutTitle: ¡hola! soy la creadora de Stars & Stuff ♡
+aboutText: |-
+  Tengo 16 años y aprendí a tejer sola, a punta de tutoriales, paciencia y muchos nudos deshechos. Me encanta aprender cosas nuevas, y el crochet se convirtió en mi forma favorita de crear: cada proyecto es un reto distinto que resuelvo punto por punto.
+
+  Así nació Stars & Stuff, mi pequeño emprendimiento en Panamá. Tejo amigurumis, flores que no se marchitan, llaveros y accesorios, todos hechos a mano.
+
+  Cada pieza se hace por pedido, así que tú eliges los colores y yo la tejo pensando en ti. Por eso no hay dos iguales ✦
+
+  ¿Tienes una idea o quieres regalar algo especial? Escríbeme por WhatsApp y lo hacemos realidad.
 aboutPhoto: ./about.jpg
