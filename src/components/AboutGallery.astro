@@ -1,0 +1,247 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image, getImage } from 'astro:assets';
+import Deco from './Deco.astro';
+
+interface Props {
+  items: { photo: ImageMetadata; caption?: string }[];
+}
+
+const { items } = Astro.props;
+const fulls = await Promise.all(items.map((it) => getImage({ src: it.photo, width: 1200 })));
+const tapes = ['tape', 'tape y', 'tape b'];
+---
+
+{
+  items.length > 0 && (
+    <div class="gallery-wrap">
+      <h3 class="label-dashed">✂ entre ferias y puntos</h3>
+      <p class="hint hand" aria-hidden="true">
+        desliza →
+      </p>
+      <ul class="gallery">
+        {items.map((it, i) => (
+          <li>
+            <button
+              type="button"
+              class="snap"
+              data-full={fulls[i].src}
+              data-caption={it.caption ?? ''}
+              data-index={i}
+              aria-label={`Ver foto en grande${it.caption ? `: ${it.caption}` : ''}`}
+            >
+              <span class={tapes[i % 3]} aria-hidden="true" />
+              <Image
+                src={it.photo}
+                alt={it.caption || 'Stars & Stuff tejiendo'}
+                widths={[280, 420, 560]}
+                sizes="(max-width: 767px) 68vw, 240px"
+                loading="lazy"
+              />
+              {it.caption && <span class="cap hand">{it.caption}</span>}
+            </button>
+          </li>
+        ))}
+      </ul>
+      <Deco kind="sparkle" color="var(--blue-400)" size={30} style="top:-6px;right:8%" />
+
+      <dialog class="lightbox" aria-label="Foto en grande">
+        <figure>
+          <img src={fulls[0].src} alt={items[0].caption || 'Stars & Stuff tejiendo'} />
+          <figcaption class="hand"></figcaption>
+        </figure>
+        <button type="button" class="lb-btn lb-prev" aria-label="Foto anterior">←</button>
+        <button type="button" class="lb-btn lb-next" aria-label="Foto siguiente">→</button>
+        <button type="button" class="lb-btn lb-close" aria-label="Cerrar">✕</button>
+      </dialog>
+    </div>
+  )
+}
+
+<script>
+  document.querySelectorAll<HTMLElement>('.gallery-wrap').forEach((wrap) => {
+    const dialog = wrap.querySelector<HTMLDialogElement>('dialog.lightbox');
+    const img = dialog?.querySelector('img');
+    const cap = dialog?.querySelector('figcaption');
+    const items = [...wrap.querySelectorAll<HTMLButtonElement>('[data-full]')];
+    if (!dialog || !img || !cap || items.length === 0) return;
+    let current = 0;
+
+    const show = (i: number) => {
+      current = (i + items.length) % items.length;
+      const it = items[current];
+      img.src = it.dataset.full!;
+      img.alt = it.querySelector('img')?.alt ?? '';
+      cap.textContent = it.dataset.caption ?? '';
+    };
+
+    items.forEach((it, i) =>
+      it.addEventListener('click', () => {
+        show(i);
+        dialog.showModal();
+      }),
+    );
+    dialog.querySelector('.lb-prev')?.addEventListener('click', () => show(current - 1));
+    dialog.querySelector('.lb-next')?.addEventListener('click', () => show(current + 1));
+    dialog.querySelector('.lb-close')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+  });
+</script>
+
+<style>
+  .gallery-wrap {
+    position: relative;
+    max-width: var(--max);
+    margin: 56px auto 0;
+  }
+  h3 {
+    font-size: 28px;
+  }
+  .hint {
+    display: none;
+    margin: 6px 0 0;
+    font-size: 20px;
+  }
+  .gallery {
+    list-style: none;
+    margin: 30px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 34px 26px;
+  }
+  .snap {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 8px 8px 10px;
+    border: 0;
+    background: #fff;
+    box-shadow: var(--shadow-paper);
+    cursor: zoom-in;
+    font: inherit;
+    color: inherit;
+    transition: transform 0.2s ease;
+  }
+  .snap :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+  .cap {
+    display: block;
+    margin-top: 6px;
+    font-size: 20px;
+    line-height: 1.1;
+    text-align: center;
+  }
+  /* collage feel: alternating tilt and a little vertical drift */
+  .gallery li:nth-child(4n + 1) .snap {
+    transform: rotate(-3deg);
+  }
+  .gallery li:nth-child(4n + 2) .snap {
+    transform: rotate(2deg) translateY(14px);
+  }
+  .gallery li:nth-child(4n + 3) .snap {
+    transform: rotate(-1.5deg) translateY(-6px);
+  }
+  .gallery li:nth-child(4n + 4) .snap {
+    transform: rotate(3deg) translateY(10px);
+  }
+  .gallery li .snap:hover,
+  .gallery li .snap:focus-visible {
+    transform: rotate(0deg) scale(1.04);
+    z-index: 5;
+  }
+
+  .lightbox {
+    border: 0;
+    padding: 12px 12px 14px;
+    background: #fff;
+    max-width: min(92vw, 640px);
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.35);
+    overflow: visible;
+  }
+  .lightbox::backdrop {
+    background: rgba(58, 47, 58, 0.75);
+  }
+  .lightbox figure {
+    margin: 0;
+  }
+  .lightbox img {
+    display: block;
+    width: 100%;
+    max-height: 78vh;
+    object-fit: contain;
+  }
+  .lightbox figcaption {
+    margin-top: 8px;
+    font-size: 26px;
+    text-align: center;
+  }
+  .lb-btn {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    background: var(--yellow-50);
+    box-shadow: 2px 2px 0 var(--line);
+    font: 700 20px var(--font-body);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .lb-prev {
+    left: -22px;
+    top: 50%;
+  }
+  .lb-next {
+    right: -22px;
+    top: 50%;
+  }
+  .lb-close {
+    right: -14px;
+    top: -14px;
+    background: var(--pink-50);
+  }
+
+  /* Mobile: swipeable row of polaroids */
+  @media (max-width: 767px) {
+    .gallery-wrap {
+      margin-top: 40px;
+    }
+    .hint {
+      display: block;
+    }
+    .gallery {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 18px 16px 26px;
+      margin: 8px -16px 0;
+      scrollbar-width: none;
+    }
+    .gallery::-webkit-scrollbar {
+      display: none;
+    }
+    .gallery li {
+      flex: 0 0 68vw;
+      scroll-snap-align: center;
+    }
+    .lb-prev {
+      left: 4px;
+    }
+    .lb-next {
+      right: 4px;
+    }
+  }
+</style>

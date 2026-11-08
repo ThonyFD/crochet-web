@@ -43,6 +43,7 @@ const settings = defineCollection({
       aboutTitle: z.string(),
       aboutText: z.string(),
       aboutPhoto: image(),
+      gallery: z.array(z.object({ photo: image(), caption: z.string().optional() })).default([]),
     }),
 });
 

@@ -47,7 +47,8 @@ Entra a `https://<tu-web>/admin/` y toca **Sign in with GitHub**.
 - **Ocultar sin borrar:** desmarca "Visible en la web".
 - **Orden:** los números más bajos aparecen primero.
 - **Categorías:** se pueden crear y renombrar. Los filtros del catálogo muestran solo las categorías que tienen productos visibles.
-- **Ajustes del sitio:** WhatsApp, Instagram, texto de la portada y la sección "sobre mí" (el texto actual es provisional: ¡escríbanlo ustedes!).
+- **Ajustes del sitio:** WhatsApp, Instagram, texto de la portada y la sección "sobre mí".
+- **Galería de "sobre mí":** en Ajustes del sitio → Galería. Agrega, quita o arrastra fotos para reordenarlas, cada una con un texto corto escrito a mano. Para que combinen, súbelas en vertical; las actuales están editadas en 4:5 con `scripts/edit-gallery.py`.
 
 Al tocar **Publicar**, el cambio queda guardado en GitHub y la web se actualiza en 1 o 2 minutos.
 

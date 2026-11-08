@@ -14,5 +14,5 @@ const [products, categories, site] = await Promise.all([getProducts(), getCatego
 >
   <Hero products={products} tagline={site.heroTagline} whatsapp={site.whatsapp} />
   <Catalog products={products} categories={categories} whatsapp={site.whatsapp} />
-  <About title={site.aboutTitle} text={site.aboutText} photo={site.aboutPhoto} />
+  <About title={site.aboutTitle} text={site.aboutText} photo={site.aboutPhoto} gallery={site.gallery} />
 </Base>

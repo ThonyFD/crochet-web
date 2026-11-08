@@ -53,6 +53,15 @@ describe('initial catalog', () => {
     expect(site.instagram).toBe('https://www.instagram.com/starsandstuffcrochet/');
     expect(existsSync(join(dirname('src/content/settings/site.yml'), site.aboutPhoto))).toBe(true);
   });
+
+  test('about gallery: 12 edited photos that exist', () => {
+    const site = parse(readFileSync('src/content/settings/site.yml', 'utf8'));
+    expect(site.gallery).toHaveLength(12);
+    for (const item of site.gallery) {
+      expect(existsSync(join('src/content/settings', item.photo)), item.photo).toBe(true);
+      expect(item.caption).toBeTruthy();
+    }
+  });
 });
 
 describe('cms config stays in sync with the content schema', () => {
@@ -88,7 +97,10 @@ describe('cms config stays in sync with the content schema', () => {
     expect(fieldNames(col('categories'))).toEqual(['label', 'order']);
     const site = col('settings').files.find((f: { name: string }) => f.name === 'site');
     expect(site.file).toBe('src/content/settings/site.yml');
-    expect(fieldNames(site)).toEqual(['aboutPhoto', 'aboutText', 'aboutTitle', 'heroTagline', 'instagram', 'whatsapp']);
+    expect(fieldNames(site)).toEqual(['aboutPhoto', 'aboutText', 'aboutTitle', 'gallery', 'heroTagline', 'instagram', 'whatsapp']);
+    const gallery = site.fields.find((f: { name: string }) => f.name === 'gallery');
+    expect(gallery.widget).toBe('list');
+    expect(fieldNames(gallery)).toEqual(['caption', 'photo']);
   });
 });
 

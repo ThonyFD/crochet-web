@@ -112,3 +112,17 @@ describe('seo and extras', () => {
     expect(page('admin/index.html').querySelector('meta[name="robots"]')!.getAttribute('content')).toBe('noindex');
   });
 });
+
+describe('about gallery', () => {
+  const home = page('index.html');
+
+  test('12 photos with alt text, each opens in the lightbox', () => {
+    const items = home.querySelectorAll('#sobre-mi .gallery [data-full]');
+    expect(items).toHaveLength(12);
+    for (const btn of items) {
+      expect(btn.tagName).toBe('BUTTON');
+      expect(btn.querySelector('img')!.getAttribute('alt')).toBeTruthy();
+    }
+    expect(home.querySelector('#sobre-mi dialog.lightbox')).not.toBeNull();
+  });
+});

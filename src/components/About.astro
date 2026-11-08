@@ -2,14 +2,16 @@
 import type { ImageMetadata } from 'astro';
 import Polaroid from './Polaroid.astro';
 import Deco from './Deco.astro';
+import AboutGallery from './AboutGallery.astro';
 
 interface Props {
   title: string;
   text: string;
   photo: ImageMetadata;
+  gallery?: { photo: ImageMetadata; caption?: string }[];
 }
 
-const { title, text, photo } = Astro.props;
+const { title, text, photo, gallery = [] } = Astro.props;
 ---
 
 <section id="sobre-mi" class="about" aria-labelledby="about-title">
@@ -25,6 +27,7 @@ const { title, text, photo } = Astro.props;
       <Deco kind="star" color="var(--orange-400)" size={44} style="bottom:0;right:10px" />
     </div>
   </div>
+  <AboutGallery items={gallery} />
 </section>
 
 <style>
@@ -56,6 +59,9 @@ const { title, text, photo } = Astro.props;
   .note p {
     margin: 0;
   }
+  .note p + p {
+    margin-top: 14px;
+  }
   .side {
     flex: 1;
     position: relative;
@@ -80,6 +86,7 @@ const { title, text, photo } = Astro.props;
       align-items: stretch;
     }
     .side {
+      flex: none;
       min-width: 0;
     }
     .side :global(.pic) {

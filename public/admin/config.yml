@@ -130,3 +130,13 @@ collections:
           - { name: aboutTitle, label: Título de "sobre mí" }
           - { name: aboutText, label: Texto de "sobre mí", widget: text }
           - { name: aboutPhoto, label: Foto de "sobre mí", widget: image }
+          - name: gallery
+            label: Galería de "sobre mí"
+            label_singular: Foto
+            widget: list
+            required: false
+            hint: Fotos de ferias y momentos tejiendo. Se ven como polaroids; puedes reordenarlas arrastrando.
+            summary: '{{caption}}'
+            fields:
+              - { name: photo, label: Foto, widget: image }
+              - { name: caption, label: Texto escrito a mano, required: false, hint: 'Corto, por ejemplo "feria navideña ♡"' }
