@@ -3,8 +3,8 @@ backend:
   name: github
   repo: ThonyFD/crochet-web
   branch: main
-  # URL del worker sveltia-cms-auth (ver docs/GUIA.md, paso 2)
-  # base_url: https://sveltia-cms-auth.<tu-cuenta>.workers.dev
+  # Worker sveltia-cms-auth (ver docs/GUIA.md, paso 2)
+  base_url: https://sveltia-cms-auth.fdsystems-fd.workers.dev
 
 site_url: https://stars-and-stuff-crochet.pages.dev
 logo:
