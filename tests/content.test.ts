@@ -54,3 +54,40 @@ describe('initial catalog', () => {
     expect(existsSync(join(dirname('src/content/settings/site.yml'), site.aboutPhoto))).toBe(true);
   });
 });
+
+describe('cms config stays in sync with the content schema', () => {
+  const cms = parse(readFileSync('public/admin/config.yml', 'utf8'));
+  const col = (name: string) => cms.collections.find((c: { name: string }) => c.name === name);
+  const fieldNames = (c: { fields: { name: string }[] }) => c.fields.map((f) => f.name).sort();
+
+  test('backend and output', () => {
+    expect(cms.backend.name).toBe('github');
+    expect(cms.backend.repo).toBe('ThonyFD/crochet-web');
+    expect(cms.backend.branch).toBe('main');
+    expect(cms.output.omit_empty_optional_fields).toBe(true);
+    expect(cms.locale).toBe('es');
+  });
+
+  test('products collection matches the schema keys', () => {
+    const products = col('products');
+    expect(products.folder).toBe('src/content/products');
+    expect(products.path).toBe('{{slug}}/index');
+    expect(products.media_folder).toBe('');
+    expect(products.public_folder).toBe('');
+    expect(fieldNames(products)).toEqual(
+      [
+        'name', 'photos', 'price', 'priceMode', 'category', 'description', 'measures', 'colors',
+        'customizable', 'shipping', 'availability', 'featured', 'visible', 'order',
+      ].sort(),
+    );
+  });
+
+  test('categories and settings', () => {
+    expect(col('categories').folder).toBe('src/content/categories');
+    expect(col('categories').extension).toBe('yml');
+    expect(fieldNames(col('categories'))).toEqual(['label', 'order']);
+    const site = col('settings').files.find((f: { name: string }) => f.name === 'site');
+    expect(site.file).toBe('src/content/settings/site.yml');
+    expect(fieldNames(site)).toEqual(['aboutPhoto', 'aboutText', 'aboutTitle', 'heroTagline', 'instagram', 'whatsapp']);
+  });
+});

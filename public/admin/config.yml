@@ -1,0 +1,130 @@
+# Sveltia CMS config. Field names must match src/content.config.ts (tests/content.test.ts checks it).
+backend:
+  name: github
+  repo: ThonyFD/crochet-web
+  branch: main
+  # URL del worker sveltia-cms-auth (ver docs/GUIA.md, paso 2)
+  # base_url: https://sveltia-cms-auth.<tu-cuenta>.workers.dev
+
+locale: es
+site_url: https://starsandstuff.pages.dev
+logo_url: /favicon.png
+
+media_folder: /public/uploads
+public_folder: /uploads
+
+output:
+  omit_empty_optional_fields: true
+
+collections:
+  - name: products
+    label: Productos
+    label_singular: Producto
+    folder: src/content/products
+    path: '{{slug}}/index'
+    media_folder: ''
+    public_folder: ''
+    create: true
+    slug: '{{name}}'
+    identifier_field: name
+    summary: '{{name}} · {{priceMode}}'
+    sortable_fields: [order, name]
+    thumbnail: photos.*
+    fields:
+      - { name: name, label: Nombre }
+      - name: photos
+        label: Fotos
+        widget: image
+        multiple: true
+        hint: La primera es la foto principal. Puedes agregar varias.
+      - name: price
+        label: Precio (USD)
+        widget: number
+        value_type: float
+        required: false
+        hint: Déjalo vacío si el precio es "a consultar".
+      - name: priceMode
+        label: Tipo de precio
+        widget: select
+        default: fijo
+        options:
+          - { label: 'Fijo ($15)', value: fijo }
+          - { label: 'Desde ($25 en adelante)', value: desde }
+          - { label: 'A consultar', value: consultar }
+      - name: category
+        label: Categoría
+        widget: relation
+        collection: categories
+        value_field: '{{slug}}'
+        display_fields: [label]
+        search_fields: [label]
+      - { name: description, label: Descripción, widget: text, required: false }
+      - name: measures
+        label: Medidas
+        required: false
+        hint: 'Por ejemplo "28 × 15 × 10 cm". Déjalo vacío si no aplica: no se mostrará.'
+      - name: colors
+        label: Colores
+        required: false
+        hint: 'Por ejemplo "por pedido". Déjalo vacío si no aplica: no se mostrará.'
+      - name: customizable
+        label: ¿Se puede personalizar?
+        widget: select
+        required: false
+        options: ['sí', 'no']
+        hint: Déjalo vacío si no quieres mostrarlo en la ficha.
+      - { name: shipping, label: Envíos, default: todo Panamá, required: false }
+      - name: availability
+        label: Disponibilidad
+        widget: select
+        required: false
+        options: ['entrega inmediata', 'por pedido']
+        hint: Déjalo vacío si no quieres mostrarlo.
+      - name: featured
+        label: Destacar en la portada
+        widget: boolean
+        default: false
+        hint: La portada muestra hasta 3 destacados.
+      - name: visible
+        label: Visible en la web
+        widget: boolean
+        default: true
+        hint: Desmárcalo para ocultar el producto sin borrarlo.
+      - name: order
+        label: Orden
+        widget: number
+        value_type: int
+        default: 100
+        hint: Los números más bajos aparecen primero.
+
+  - name: categories
+    label: Categorías
+    label_singular: Categoría
+    folder: src/content/categories
+    extension: yml
+    format: yaml
+    create: true
+    slug: '{{label}}'
+    identifier_field: label
+    sortable_fields: [order, label]
+    fields:
+      - { name: label, label: Nombre }
+      - { name: order, label: Orden, widget: number, value_type: int, default: 100 }
+
+  - name: settings
+    label: Ajustes del sitio
+    editor:
+      preview: false
+    files:
+      - name: site
+        label: Ajustes generales
+        file: src/content/settings/site.yml
+        media_folder: ''
+        public_folder: ''
+        fields:
+          - { name: whatsapp, label: Número de WhatsApp, hint: 'Con código de país, solo números. Ej: 50765839292' }
+          - { name: instagram, label: Link de Instagram }
+          - { name: heroTagline, label: Texto de la portada, widget: text }
+          - { name: aboutTitle, label: Título de "sobre mí" }
+          - { name: aboutText, label: Texto de "sobre mí", widget: text }
+          - { name: aboutPhoto, label: Foto de "sobre mí", widget: image }

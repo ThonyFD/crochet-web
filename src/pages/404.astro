@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import CutoutTitle from '../components/CutoutTitle.astro';
+import StickerButton from '../components/StickerButton.astro';
+import Deco from '../components/Deco.astro';
+---
+
+<Base title="Página no encontrada | Stars & Stuff" description="Esta página no existe.">
+  <section class="lost dotted-paper">
+    <div class="note ruled">
+      <span class="tape" aria-hidden="true"></span>
+      <CutoutTitle text="ups" as="h1" />
+      <p class="hand">esta página se deshilachó ✦</p>
+      <StickerButton href="/" size="md">← volver al inicio</StickerButton>
+    </div>
+    <Deco kind="star" color="var(--yellow-400)" size={44} style="top:40px;left:12%" />
+    <Deco kind="heart" color="var(--pink-400)" size={30} style="bottom:50px;right:14%" />
+  </section>
+</Base>
+
+<style>
+  .lost {
+    position: relative;
+    min-height: 60vh;
+    display: grid;
+    place-items: center;
+    padding: 50px 16px;
+  }
+  .note {
+    position: relative;
+    padding: 30px 32px;
+    transform: rotate(-1.5deg);
+    text-align: center;
+    max-width: 420px;
+  }
+  .note :global(.letters) {
+    justify-content: center;
+  }
+  .note p {
+    font-size: 28px;
+    margin: 16px 0 20px;
+  }
+  .note :global(.sticker) {
+    transform: rotate(-2deg);
+  }
+</style>

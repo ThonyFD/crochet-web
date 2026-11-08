@@ -30,7 +30,9 @@ const price = formatPrice(product);
 const tapes = ['pink', 'yellow', 'blue'] as const;
 ---
 
-<Base title={`${product.name} | Stars & Stuff`} description={product.data.description || `${product.name}, tejido a mano en Panamá.`}>
+<Base title={`${product.name} | Stars & Stuff`} description={product.data.description || `${product.name}, tejido a mano en Panamá.`}
+  ogImage={product.data.photos[0]}
+>
   <section class="prod dotted-paper">
     <div class="in">
       <nav class="crumb hand" aria-label="Ruta">

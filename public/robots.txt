@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /admin/
+
+Sitemap: https://starsandstuff.pages.dev/sitemap-index.xml

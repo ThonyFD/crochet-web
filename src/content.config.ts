@@ -14,7 +14,8 @@ const products = defineCollection({
       description: z.string().default(''),
       measures: z.string().optional(),
       colors: z.string().optional(),
-      customizable: z.boolean().optional(),
+      // The CMS stores "sí" / "no"; the initial migration wrote booleans.
+      customizable: z.preprocess((v) => (v === 'sí' ? true : v === 'no' ? false : v), z.boolean().optional()),
       shipping: z.string().default('todo Panamá'),
       availability: z.enum(['entrega inmediata', 'por pedido']).optional(),
       featured: z.boolean().default(false),

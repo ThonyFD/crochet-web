@@ -86,3 +86,29 @@ describe('product pages', () => {
     for (const slug of visible) expect(raw(`tejidos/${slug}/index.html`)).not.toContain('—');
   });
 });
+
+describe('seo and extras', () => {
+  const pages = ['index.html', 'tejidos/cosmic-kitty/index.html', 'tejidos/peluche-ovejita/index.html'];
+
+  test('every page has title, description, og image, canonical and favicon', () => {
+    for (const path of pages) {
+      const head = page(path).querySelector('head')!;
+      expect(head.querySelector('title')!.text, path).toContain('Stars & Stuff');
+      expect(head.querySelector('meta[name="description"]')!.getAttribute('content'), path).toBeTruthy();
+      expect(head.querySelector('meta[property="og:image"]')!.getAttribute('content'), path).toMatch(/^https:\/\//);
+      expect(head.querySelector('link[rel="canonical"]')!.getAttribute('href'), path).toMatch(/^https:\/\//);
+      expect(head.querySelector('link[rel="icon"]'), path).not.toBeNull();
+    }
+  });
+
+  test('sitemap excludes admin', () => {
+    expect(existsSync('dist/sitemap-index.xml')).toBe(true);
+    const urls = readdirSync('dist').filter((f) => f.startsWith('sitemap-') && f !== 'sitemap-index.xml');
+    for (const f of urls) expect(raw(f)).not.toContain('/admin/');
+  });
+
+  test('404 page and noindex admin', () => {
+    expect(existsSync('dist/404.html')).toBe(true);
+    expect(page('admin/index.html').querySelector('meta[name="robots"]')!.getAttribute('content')).toBe('noindex');
+  });
+});
