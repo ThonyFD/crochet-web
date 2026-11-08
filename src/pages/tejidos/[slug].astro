@@ -1,0 +1,161 @@
+---
+import Base from '../../layouts/Base.astro';
+import CutoutTitle from '../../components/CutoutTitle.astro';
+import Polaroid from '../../components/Polaroid.astro';
+import StickerButton from '../../components/StickerButton.astro';
+import Deco from '../../components/Deco.astro';
+import ProductGallery from '../../components/ProductGallery.astro';
+import ProductFicha from '../../components/ProductFicha.astro';
+import { fichaRows, relatedProducts, visibleSorted } from '../../lib/catalog';
+import { formatPrice } from '../../lib/pricing';
+import { productMessage, whatsappUrl } from '../../lib/whatsapp';
+import { getCategories, getProducts, getSettings, type Product } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const all = await getProducts();
+  return visibleSorted(all).map((product) => ({ params: { slug: product.id }, props: { product, all } }));
+}
+
+interface Props {
+  product: Product;
+  all: Product[];
+}
+
+const { product, all } = Astro.props;
+const [categories, site] = await Promise.all([getCategories(), getSettings()]);
+const category = categories.find((c) => c.id === product.category);
+const related = relatedProducts(product, all);
+const pageUrl = (id: string) => new URL(`/tejidos/${id}/`, Astro.site).href;
+const price = formatPrice(product);
+const tapes = ['pink', 'yellow', 'blue'] as const;
+---
+
+<Base title={`${product.name} | Stars & Stuff`} description={product.data.description || `${product.name}, tejido a mano en Panamá.`}>
+  <section class="prod dotted-paper">
+    <div class="in">
+      <nav class="crumb hand" aria-label="Ruta">
+        <a href="/#tejidos">← <b>tejidos</b></a>
+        {category && <span> / {category.label}</span>}
+        <span aria-current="page"> / {product.name}</span>
+      </nav>
+
+      <div class="wrap">
+        <ProductGallery photos={product.data.photos} name={product.name} />
+
+        <div class="info">
+          <CutoutTitle text={product.name} as="h1" size="md" />
+          <p class="bigprice">{price}</p>
+          {product.data.description && <p class="desc">{product.data.description}</p>}
+          <ProductFicha rows={fichaRows(product)} />
+          <div class="order">
+            <StickerButton href={whatsappUrl(site.whatsapp, productMessage(product, pageUrl(product.id)))}>
+              💬 Pedir por WhatsApp
+            </StickerButton>
+          </div>
+          <Deco kind="heart" color="var(--pink-400)" size={28} style="top:0;right:0" />
+        </div>
+      </div>
+
+      <section class="related" aria-labelledby="rel-title">
+        <h2 id="rel-title" class="label-dashed">✂ también te puede gustar</h2>
+        <ul class="grid">
+          {
+            related.map((p, i) => (
+              <li data-category={p.category}>
+                <Polaroid
+                  image={p.data.photos[0]}
+                  alt={p.name}
+                  caption={p.name}
+                  href={`/tejidos/${p.id}/`}
+                  price={formatPrice(p)}
+                  waHref={whatsappUrl(site.whatsapp, productMessage(p, pageUrl(p.id)))}
+                  tape={tapes[i % 3]}
+                />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .prod {
+    padding: 26px clamp(16px, 4vw, 40px) 50px;
+  }
+  .in {
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  .crumb {
+    font-size: 22px;
+    margin-bottom: 22px;
+  }
+  .crumb a {
+    text-decoration: none;
+  }
+  .crumb b {
+    color: var(--pink-text);
+  }
+  .wrap {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .info {
+    position: relative;
+    padding-right: 24px;
+  }
+  .bigprice {
+    display: inline-block;
+    background: var(--yellow-50);
+    font-family: var(--font-hand);
+    font-weight: 700;
+    font-size: 34px;
+    padding: 2px 16px;
+    transform: rotate(-3deg);
+    box-shadow: var(--shadow-chip);
+    margin: 20px 0 14px;
+  }
+  .desc {
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 0 0 20px;
+  }
+  .related {
+    margin-top: 56px;
+  }
+  .related h2 {
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px 22px;
+  }
+  .grid li:nth-child(odd) :global(.polaroid) {
+    transform: rotate(-2deg);
+  }
+  .grid li:nth-child(even) :global(.polaroid) {
+    transform: rotate(1.5deg);
+  }
+  @media (max-width: 767px) {
+    .wrap {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .info {
+      padding-right: 0;
+    }
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 26px 16px;
+    }
+  }
+</style>

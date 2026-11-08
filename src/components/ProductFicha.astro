@@ -1,0 +1,54 @@
+---
+import type { FichaRow } from '../lib/types';
+
+interface Props {
+  rows: FichaRow[];
+}
+
+const { rows } = Astro.props;
+---
+
+{
+  rows.length > 0 && (
+    <div class="ficha ruled">
+      <span class="tape b" aria-hidden="true" />
+      <h2 class="hand">✎ ficha</h2>
+      <dl>
+        {rows.map((r) => (
+          <div class="row">
+            <dt>{r.label}</dt>
+            <dd>{r.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )
+}
+
+<style>
+  .ficha {
+    position: relative;
+    padding: 18px 22px;
+    transform: rotate(1deg);
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+  h2 {
+    font-size: 26px;
+    margin: 0;
+    line-height: 30px;
+  }
+  dl {
+    margin: 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+  }
+  dt {
+    font-weight: 700;
+  }
+  dd {
+    margin: 0;
+  }
+</style>

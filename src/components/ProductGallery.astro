@@ -1,0 +1,107 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import Polaroid from './Polaroid.astro';
+import Deco from './Deco.astro';
+
+interface Props {
+  photos: ImageMetadata[];
+  name: string;
+}
+
+const { photos, name } = Astro.props;
+// Thumbnails swap the main photo; without JS they link to the full image.
+const fulls = await Promise.all(photos.map((src) => getImage({ src, width: 900 })));
+const thumbs = await Promise.all(photos.map((src) => getImage({ src, width: 160 })));
+---
+
+<div class="gal">
+  <div class="back gingham torn" aria-hidden="true"></div>
+  <Polaroid
+    class="main"
+    image={photos[0]}
+    alt={name}
+    caption={`${name} ♡`}
+    tape="yellow"
+    widths={[480, 720, 900]}
+    sizes="(max-width: 767px) 92vw, 480px"
+    loading="eager"
+  />
+  {
+    photos.length > 1 && (
+      <ul class="thumbs" aria-label="Más fotos">
+        {thumbs.map((t, i) => (
+          <li>
+            <a href={fulls[i].src} data-full={fulls[i].src} aria-current={i === 0 ? 'true' : undefined}>
+              <img src={t.src} alt={`${name}, foto ${i + 1}`} width="80" height="80" loading="lazy" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  <Deco kind="star" color="var(--yellow-400)" style="top:-14px;left:-14px" />
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.gal').forEach((gal) => {
+    const main = gal.querySelector<HTMLImageElement>('.main img');
+    gal.querySelectorAll<HTMLAnchorElement>('[data-full]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        if (!main) return;
+        e.preventDefault();
+        main.srcset = '';
+        main.src = a.dataset.full!;
+        gal.querySelectorAll('[data-full]').forEach((x) => x.removeAttribute('aria-current'));
+        a.setAttribute('aria-current', 'true');
+      });
+    });
+  });
+</script>
+
+<style>
+  .gal {
+    position: relative;
+  }
+  .back {
+    position: absolute;
+    inset: 30px -10px -20px 20px;
+    transform: rotate(3deg);
+  }
+  .gal :global(.main) {
+    transform: rotate(-2deg);
+  }
+  .gal :global(.main figcaption) {
+    font-size: 26px;
+  }
+  .thumbs {
+    display: flex;
+    gap: 12px;
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+    z-index: 2;
+  }
+  .thumbs a {
+    display: block;
+    background: #fff;
+    padding: 4px;
+    box-shadow: var(--shadow-paper);
+  }
+  .thumbs li:nth-child(odd) a {
+    transform: rotate(-4deg);
+  }
+  .thumbs li:nth-child(even) a {
+    transform: rotate(3deg);
+  }
+  .thumbs a[aria-current='true'] {
+    outline: 3px solid var(--pink-400);
+  }
+  .thumbs img {
+    display: block;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+  }
+</style>
