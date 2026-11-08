@@ -1,0 +1,168 @@
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;700&family=Rubik+Mono+One&family=Abril+Fatface&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  .pg { font-family:'Nunito',sans-serif; color:#3a2f3a; max-width:980px; margin:0 auto 40px; border-radius:6px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.12); }
+  .pg * { box-sizing:border-box; }
+  .hand { font-family:'Caveat',cursive; }
+  .cut { display:inline-block; padding:2px 9px; margin:0 1px; box-shadow:1px 2px 3px rgba(0,0,0,.25); font-size:40px; line-height:1.1; }
+  .cut:nth-child(5n+1){ background:#ffd6e7; font-family:'Abril Fatface'; transform:rotate(-6deg); }
+  .cut:nth-child(5n+2){ background:#fff3a8; font-family:'Rubik Mono One'; font-size:30px; transform:rotate(4deg); }
+  .cut:nth-child(5n+3){ background:#d7ecff; font-family:'Special Elite'; transform:rotate(-3deg); }
+  .cut:nth-child(5n+4){ background:#e6dcff; font-family:'Abril Fatface'; transform:rotate(7deg); }
+  .cut:nth-child(5n+5){ background:#fff; font-family:'Rubik Mono One'; font-size:30px; color:#b8175a; transform:rotate(-2deg); }
+  .sp { display:inline-block; width:14px; }
+  .tape { position:absolute; width:80px; height:22px; background:rgba(255,182,213,.8); top:-10px; left:50%; transform:translateX(-50%) rotate(-4deg); z-index:2; }
+  .tape.y { background:repeating-linear-gradient(45deg, rgba(255,236,140,.9) 0 6px, rgba(255,255,255,.6) 6px 12px); }
+  .tape.b { background:rgba(160,205,255,.8); }
+  .photo { position:relative; background:#fff; padding:8px 8px 10px; box-shadow:2px 4px 10px rgba(0,0,0,.2); }
+  .photo img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
+  .photo .cap { font-family:'Caveat'; font-size:22px; text-align:center; margin-top:4px; line-height:1; }
+  .photo .meta { display:flex; justify-content:space-between; align-items:center; margin-top:6px; font-size:13px; }
+  .tag-price { background:#fff3a8; font-weight:700; padding:2px 8px; transform:rotate(-3deg); display:inline-block; }
+  .mini-wa { background:#7ed99b; border:2px solid #2b2b2b; border-radius:20px; padding:2px 10px; font-weight:700; font-size:12px; }
+  .price { position:absolute; right:-12px; bottom:30px; background:#fff3a8; font-family:'Caveat'; font-weight:700; font-size:22px; padding:4px 10px; border-radius:50%; transform:rotate(10deg); box-shadow:1px 2px 3px rgba(0,0,0,.2); z-index:3; }
+  .btn-sticker { display:inline-block; background:#7ed99b; color:#123; font-weight:700; padding:12px 22px; border:3px solid #fff; border-radius:30px; box-shadow:0 0 0 2px #2b2b2b, 3px 4px 0 2px #2b2b2b; transform:rotate(-2deg); font-size:17px; }
+  .star { position:absolute; font-size:34px; z-index:4; }
+  .gingham { background-color:#f6c9dd; background-image:linear-gradient(90deg, rgba(255,255,255,.5) 50%, transparent 50%), linear-gradient(rgba(255,255,255,.5) 50%, transparent 50%); background-size:18px 18px; }
+  .dots { background:#bfe3ee radial-gradient(#fff 1.8px, transparent 2px) 0 0/14px 14px; }
+  .stripes { background:repeating-linear-gradient(90deg,#e8dcff 0 12px,#f7f1ff 12px 24px); }
+  .torn { clip-path:polygon(0 3%,8% 0,20% 4%,33% 1%,47% 3%,60% 0,74% 4%,88% 1%,100% 3%,98% 50%,100% 97%,85% 100%,70% 96%,55% 100%,40% 97%,25% 100%,10% 96%,0 100%,2% 50%); }
+  .burst { position:absolute; clip-path:polygon(50% 0,61% 30%,95% 20%,72% 48%,100% 70%,64% 68%,58% 100%,43% 72%,8% 88%,28% 58%,0 30%,36% 32%); }
+  .uline { background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'><path d='M0 5 Q 25 1 50 5 T 100 4' stroke='%23ff5fa2' stroke-width='3' fill='none'/></svg>") bottom/100% 8px no-repeat; padding-bottom:4px; }
+  /* logo como parche/sticker pegado */
+  .logo { display:block; border-radius:50%; filter:drop-shadow(2px 4px 5px rgba(0,0,0,.3)); }
+
+  .nav { display:flex; justify-content:space-between; align-items:center; padding:10px 28px; background:#fbf6ea; border-bottom:2px dashed #d9cdb5; }
+  .nav .links { display:flex; gap:18px; font-family:'Caveat'; font-size:22px; }
+
+  .hero { position:relative; background:#fbf6ea; height:520px; overflow:hidden; }
+  .hero .blk1 { position:absolute; top:40px; left:-20px; width:46%; height:280px; transform:rotate(-3deg); }
+  .hero .blk2 { position:absolute; top:220px; right:-30px; width:44%; height:300px; transform:rotate(2deg); }
+  .hero .blk3 { position:absolute; bottom:-20px; left:28%; width:30%; height:140px; transform:rotate(-1deg); }
+  .hero .title { position:absolute; top:60px; left:46%; right:30px; z-index:5; }
+  .hero .title p { font-size:17px; margin:16px 0 20px; max-width:360px; background:rgba(251,246,234,.9); padding:6px 8px; }
+  .hero .p1 { position:absolute; top:60px; left:40px; width:230px; transform:rotate(-6deg); z-index:3; }
+  .hero .p2 { position:absolute; top:270px; left:230px; width:190px; transform:rotate(5deg); z-index:4; }
+  .hero .p3 { position:absolute; top:300px; right:60px; width:200px; transform:rotate(-3deg); z-index:3; }
+  .hero .burst { top:250px; left:150px; width:150px; height:150px; background:#ff5fa2; z-index:2; }
+  .hero .patch { position:absolute; top:24px; right:24px; width:120px; transform:rotate(10deg); z-index:6; }
+
+  /* PRODUCTO */
+  .prod { background:#fffdf7 radial-gradient(#d9d2c3 1.3px, transparent 1.5px) 0 0/20px 20px; padding:26px 40px 40px; position:relative; }
+  .crumb { font-family:'Caveat'; font-size:22px; margin-bottom:18px; }
+  .crumb b { color:#b8175a; }
+  .pwrap { display:flex; gap:44px; align-items:flex-start; }
+  .gal { flex:1.1; position:relative; }
+  .gal .back { position:absolute; inset:30px -10px -20px 20px; transform:rotate(3deg); }
+  .gal .main { transform:rotate(-2deg); }
+  .gal .main .cap { font-size:26px; }
+  .thumbs { display:flex; gap:12px; margin-top:22px; position:relative; z-index:2; }
+  .thumbs .photo { width:80px; padding:4px; }
+  .thumbs .photo:nth-child(1){ transform:rotate(-4deg); outline:3px solid #ff5fa2; }
+  .thumbs .photo:nth-child(2){ transform:rotate(3deg); }
+  .thumbs .photo:nth-child(3){ transform:rotate(-1deg); }
+  .info { flex:1; position:relative; }
+  .info h1 { margin:0; }
+  .bigprice { display:inline-block; background:#fff3a8; font-family:'Caveat'; font-weight:700; font-size:34px; padding:2px 16px; transform:rotate(-3deg); box-shadow:1px 2px 3px rgba(0,0,0,.2); margin:18px 0 14px; }
+  .desc { font-size:16px; line-height:1.55; margin:0 0 18px; }
+  .ficha { position:relative; background:#fff; padding:18px 22px; transform:rotate(1deg); box-shadow:2px 4px 10px rgba(0,0,0,.15);
+    background-image:repeating-linear-gradient(transparent 0 27px, #cfe3f3 27px 28px); line-height:28px; font-size:15px; margin-bottom:26px; }
+  .ficha h3 { font-family:'Caveat'; font-size:26px; margin:0; line-height:30px; }
+  .ficha dt { font-weight:700; float:left; width:120px; }
+  .ficha dd { margin:0 0 0 120px; }
+  .waprev { margin-top:14px; font-size:13px; background:#e7f8ec; border:1px dashed #3d9a5b; padding:8px 12px; border-radius:10px; max-width:340px; }
+  .rel { margin-top:44px; }
+  .label { display:inline-block; background:#fff; border:2px dashed #b8175a; padding:4px 16px; font-family:'Caveat'; font-size:28px; transform:rotate(-2deg); margin-bottom:22px; }
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:28px 22px; }
+  .grid .photo:nth-child(4n+1){ transform:rotate(-2deg); }
+  .grid .photo:nth-child(4n+2){ transform:rotate(1.5deg); }
+  .grid .photo:nth-child(4n+3){ transform:rotate(-1deg); }
+  .grid .photo:nth-child(4n+4){ transform:rotate(2deg); }
+  .foot { background:#f6c9dd; padding:24px 40px; display:flex; justify-content:space-between; align-items:center; }
+  .foot .hand { font-size:28px; }
+</style>
+
+<h2>Logo integrado + página de producto</h2>
+<p class="subtitle">La portada es la misma que aprobaron. Solo agregué el logo en dos lugares: como "parche" cosido en la portada (arriba a la derecha) y pequeño en el menú. Más abajo está la página de un producto.</p>
+
+<h3>1 · Portada con logo</h3>
+<div class="pg">
+  <div class="nav">
+    <div style="display:flex;align-items:center;gap:10px"><img class="logo" src="/files/logo.png" style="width:58px"><span class="hand" style="font-size:26px;font-weight:700">Stars &amp; Stuff</span></div>
+    <div class="links"><span>tejidos</span><span>sobre mí</span><span>pedidos</span><span style="color:#b8175a">IG ♡</span></div>
+  </div>
+  <div class="hero">
+    <div class="blk1 gingham torn"></div>
+    <div class="blk2 dots torn"></div>
+    <div class="blk3 stripes torn"></div>
+    <div class="burst"></div>
+    <div class="photo p1"><span class="tape"></span><img src="/files/14-cosmic-kitty.jpg"><div class="cap">Cosmic Kitty</div><span class="price">$15</span></div>
+    <div class="photo p2"><span class="tape y"></span><img src="/files/07-ramo-rosas-san-valentin.jpg"><div class="cap">Ramo de rosas</div></div>
+    <div class="photo p3"><span class="tape b"></span><img src="/files/03-ovejita.jpg"><div class="cap">Ovejita</div><span class="price">$35</span></div>
+    <img class="logo patch" src="/files/logo.png">
+    <div class="title">
+      <div><span class="cut">S</span><span class="cut">T</span><span class="cut">A</span><span class="cut">R</span><span class="cut">S</span></div>
+      <div style="margin-top:8px"><span class="cut">&amp;</span><span class="sp"></span><span class="cut">S</span><span class="cut">T</span><span class="cut">U</span><span class="cut">F</span><span class="cut">F</span></div>
+      <p>Amigurumis, flores y accesorios <span class="uline">tejidos a mano</span> con mucho cariño en Panamá. Colores a tu gusto ✦</p>
+      <span class="btn-sticker">💬 Pídelo por WhatsApp</span>
+      <span class="hand" style="font-size:22px;margin-left:14px">← ¡responde rapidito!</span>
+    </div>
+    <span class="star" style="top:30px;left:44%;color:#ffd23f">★</span>
+    <span class="star" style="top:250px;left:44%;color:#ff8a3d;font-size:44px">★</span>
+    <span class="star" style="bottom:40px;left:20px;color:#ff5fa2">♥</span>
+    <span class="star" style="bottom:30px;right:300px;color:#ffd23f;font-size:24px">★</span>
+  </div>
+</div>
+
+<h3>2 · Página de producto</h3>
+<div class="pg">
+  <div class="nav">
+    <div style="display:flex;align-items:center;gap:10px"><img class="logo" src="/files/logo.png" style="width:58px"><span class="hand" style="font-size:26px;font-weight:700">Stars &amp; Stuff</span></div>
+    <div class="links"><span>tejidos</span><span>sobre mí</span><span>pedidos</span><span style="color:#b8175a">IG ♡</span></div>
+  </div>
+  <div class="prod">
+    <div class="crumb">← <b>tejidos</b> / amigurumis / Peluche Ovejita</div>
+    <div class="pwrap">
+      <div class="gal">
+        <div class="back gingham torn"></div>
+        <div class="photo main"><span class="tape y"></span><img src="/files/04-peluche-ovejita.jpg"><div class="cap">Peluche Ovejita ♡</div></div>
+        <div class="thumbs">
+          <div class="photo"><img src="/files/04-peluche-ovejita.jpg"></div>
+          <div class="photo"><img src="/files/03-ovejita.jpg"></div>
+          <div class="photo"><img src="/files/14-cosmic-kitty-big.jpg"></div>
+        </div>
+        <span class="star" style="top:-14px;left:-14px;color:#ffd23f">★</span>
+      </div>
+      <div class="info">
+        <div><span class="cut">O</span><span class="cut">V</span><span class="cut">E</span><span class="cut">J</span><span class="cut">I</span><span class="cut">T</span><span class="cut">A</span></div>
+        <div class="bigprice">desde $35</div>
+        <p class="desc">Hecha a mano en crochet, suavecita y perfecta para regalar o decorar un rinconcito especial. Ideal para baby showers.</p>
+        <div class="ficha"><span class="tape b"></span>
+          <h3>✎ ficha</h3>
+          <dl style="margin:0">
+            <dt>Medidas</dt><dd>28 × 15 × 10 cm</dd>
+            <dt>Colores</dt><dd>por pedido</dd>
+            <dt>Personalizable</dt><dd>sí ✓</dd>
+            <dt>Envíos</dt><dd>todo Panamá</dd>
+            <dt>Disponible</dt><dd>entrega inmediata</dd>
+          </dl>
+        </div>
+        <span class="btn-sticker">💬 Pedir por WhatsApp</span>
+        <div class="waprev">Se abre WhatsApp con: <i>"¡Hola! Me interesa el <b>Peluche Ovejita</b> (desde $35) que vi en la web ✦"</i></div>
+        <span class="star" style="top:0;right:0;color:#ff5fa2;font-size:28px">♥</span>
+      </div>
+    </div>
+    <div class="rel">
+      <span class="label">✂ también te puede gustar</span>
+      <div class="grid">
+        <div class="photo"><span class="tape"></span><img src="/files/14-cosmic-kitty.jpg"><div class="cap">Cosmic Kitty</div><div class="meta"><span class="tag-price">$15</span><span class="mini-wa">💬 pedir</span></div></div>
+        <div class="photo"><span class="tape y"></span><img src="/files/02-serpientita-de-colores.jpg"><div class="cap">Serpientita</div><div class="meta"><span class="tag-price">$20</span><span class="mini-wa">💬 pedir</span></div></div>
+        <div class="photo"><span class="tape b"></span><img src="/files/03-ovejita.jpg"><div class="cap">Ovejita</div><div class="meta"><span class="tag-price">$35</span><span class="mini-wa">💬 pedir</span></div></div>
+        <div class="photo"><span class="tape"></span><img src="/files/10-llavero-de-flor.jpg"><div class="cap">Llavero de flor</div><div class="meta"><span class="tag-price">$5</span><span class="mini-wa">💬 pedir</span></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div style="display:flex;align-items:center;gap:12px"><img class="logo" src="/files/logo.png" style="width:64px;transform:rotate(-8deg)"><span class="hand">¿quieres uno en tus colores? ✦</span></div>
+    <div style="display:flex;gap:16px;align-items:center"><span class="btn-sticker">💬 WhatsApp</span><span class="btn-sticker" style="background:#e6dcff">📷 Instagram</span></div>
+  </div>
+</div>
