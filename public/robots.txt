@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /admin/
 
-Sitemap: https://starsandstuff.pages.dev/sitemap-index.xml
+Sitemap: https://stars-and-stuff-crochet.pages.dev/sitemap-index.xml

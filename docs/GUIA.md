@@ -11,10 +11,10 @@ Esta guía es para ustedes, los dueños de la web. Explica cómo publicarla, có
    - **Framework preset:** Astro
    - **Build command:** `npm run build`
    - **Build output directory:** `dist`
-   - **Environment variables:** `NODE_VERSION` = `24` y `SITE_URL` = la dirección que te dé Cloudflare (por ejemplo `https://starsandstuff.pages.dev`).
+   - **Environment variables:** `NODE_VERSION` = `24` y `SITE_URL` = la dirección que te dé Cloudflare (por ejemplo `https://stars-and-stuff-crochet.pages.dev`).
 4. Guarda y despliega. Cada vez que algo cambie en `main` (también cuando guardan desde el panel), la web se vuelve a publicar sola en 1 o 2 minutos.
 
-Si el nombre `starsandstuff.pages.dev` no está libre, Cloudflare te dará otro. En ese caso, cambia `site_url` en `public/admin/config.yml`, la línea `Sitemap:` en `public/robots.txt` y la variable `SITE_URL`.
+Si el nombre `stars-and-stuff-crochet.pages.dev` no está libre, Cloudflare te dará otro. En ese caso, cambia `site_url` en `public/admin/config.yml`, la línea `Sitemap:` en `public/robots.txt` y la variable `SITE_URL`.
 
 ## 2. Activar el login del panel con GitHub
 
@@ -29,7 +29,7 @@ El panel (`/admin/`) usa GitHub para entrar. Necesita un pequeño servicio gratu
 3. **Configurar el autenticador:** en Cloudflare, abre el worker `sveltia-cms-auth` → **Settings → Variables** y agrega:
    - `GITHUB_CLIENT_ID` = el Client ID
    - `GITHUB_CLIENT_SECRET` = el Client secret (márcalo como secreto)
-   - `ALLOWED_DOMAINS` = el dominio de la web, por ejemplo `starsandstuff.pages.dev`
+   - `ALLOWED_DOMAINS` = el dominio de la web, por ejemplo `stars-and-stuff-crochet.pages.dev`
 4. **Conectar el panel:** en `public/admin/config.yml` quita el `#` de la línea `base_url` y pon la URL del worker. Haz commit a `main`.
 
 ## 3. Darle acceso a tu hija

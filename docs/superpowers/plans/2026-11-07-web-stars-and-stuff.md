@@ -91,7 +91,7 @@ docs/GUIA.md                  guía para los dueños: panel, deploy, OAuth, domi
 
 - [ ] **Step 1:** `git switch -c feat/web`; `nvm install 24 && nvm use 24`; crear `.nvmrc` con `24`.
 - [ ] **Step 2:** Scaffold Astro 7 template minimal en la raíz sin pisar archivos existentes (`npm create astro@latest -- --template minimal --no-git --install` en carpeta temporal y mover, o crear a mano). Instalar `vitest`, `@astrojs/sitemap`, `@astrojs/check`, `typescript`, `@fontsource/caveat`, `@fontsource/nunito`, `@fontsource/abril-fatface`, `@fontsource/rubik-mono-one`, `@fontsource/special-elite`, `yaml`, `gray-matter`.
-- [ ] **Step 3:** `astro.config.mjs`: `site: process.env.SITE_URL ?? 'https://starsandstuff.pages.dev'`, integración sitemap, `trailingSlash: 'always'`. `vitest.config.ts` con `getViteConfig` de `astro/config`.
+- [ ] **Step 3:** `astro.config.mjs`: `site: process.env.SITE_URL ?? 'https://stars-and-stuff-crochet.pages.dev'`, integración sitemap, `trailingSlash: 'always'`. `vitest.config.ts` con `getViteConfig` de `astro/config`.
 - [ ] **Step 4:** `tests/smoke.test.ts`: `expect(1).toBe(1)` para validar el runner.
 - [ ] **Step 5:** Run `npm run check && npm test && npm run build`. Expected: 0 errores, 1 test pasa, `dist/index.html` existe.
 - [ ] **Step 6:** Commit `chore: scaffold astro project`.
