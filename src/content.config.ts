@@ -1,6 +1,7 @@
 import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { normalizeUrl } from './lib/url';
 
 const products = defineCollection({
   loader: glob({ pattern: '*/index.md', base: './src/content/products', generateId: ({ entry }) => entry.split('/')[0] }),
@@ -37,7 +38,7 @@ const settings = defineCollection({
   schema: ({ image }) =>
     z.object({
       whatsapp: z.string(),
-      instagram: z.url(),
+      instagram: z.preprocess((v) => (typeof v === 'string' ? normalizeUrl(v) : v), z.url()),
       heroTagline: z.string(),
       aboutTitle: z.string(),
       aboutText: z.string(),

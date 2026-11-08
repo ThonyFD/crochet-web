@@ -10,6 +10,8 @@ site_url: https://starsandstuff.pages.dev
 logo:
   src: /favicon.png
 
+# Required by Sveltia. Product and settings photos are stored next to each entry (media_folder: '')
+# so Astro can optimize them; files in this global library do NOT work as product photos.
 media_folder: /public/uploads
 public_folder: /uploads
 
@@ -123,7 +125,7 @@ collections:
         public_folder: ''
         fields:
           - { name: whatsapp, label: Número de WhatsApp, hint: 'Con código de país, solo números. Ej: 50765839292' }
-          - { name: instagram, label: Link de Instagram }
+          - { name: instagram, label: Link de Instagram, hint: 'Ej: https://www.instagram.com/starsandstuffcrochet/' }
           - { name: heroTagline, label: Texto de la portada, widget: text }
           - { name: aboutTitle, label: Título de "sobre mí" }
           - { name: aboutText, label: Texto de "sobre mí", widget: text }

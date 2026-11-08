@@ -40,9 +40,9 @@ En el repositorio de GitHub ve a **Settings → Collaborators → Add people**, 
 
 Entra a `https://<tu-web>/admin/` y toca **Sign in with GitHub**.
 
-- **Agregar un producto:** Productos → Nuevo. Completa nombre, al menos una foto, tipo de precio y categoría. Lo demás es opcional: **todo campo que quede vacío no se muestra en la web**.
+- **Agregar un producto:** Productos → Nuevo. Completa nombre, al menos una foto, tipo de precio y categoría. Lo demás es opcional: **todo campo que quede vacío no se muestra en la web** (excepto Envíos, que si queda vacío muestra "todo Panamá").
 - **Precio:** elige "Fijo" ($15), "Desde" ("desde $25") o "A consultar" (sin precio; el mensaje de WhatsApp pregunta el precio).
-- **Fotos:** la primera es la principal. Si subes varias, la página del producto muestra miniaturas.
+- **Fotos:** la primera es la principal. Si subes varias, la página del producto muestra miniaturas. Súbelas siempre desde el campo **Fotos** del producto (botón de subir), no eligiéndolas de la biblioteca general de "Medios": las fotos de esa biblioteca no funcionan como foto de producto y la web no se publicaría. Usa JPG o PNG (las fotos HEIC del iPhone no sirven).
 - **Portada:** marca "Destacar en la portada" en hasta 3 productos. Si hay menos, la portada completa con los primeros del catálogo.
 - **Ocultar sin borrar:** desmarca "Visible en la web".
 - **Orden:** los números más bajos aparecen primero.

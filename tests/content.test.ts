@@ -91,3 +91,24 @@ describe('cms config stays in sync with the content schema', () => {
     expect(fieldNames(site)).toEqual(['aboutPhoto', 'aboutText', 'aboutTitle', 'heroTagline', 'instagram', 'whatsapp']);
   });
 });
+
+describe('review fixes', () => {
+  test('customizable uses the CMS select values', () => {
+    for (const slug of slugs()) {
+      const v = fm(slug).customizable;
+      expect([undefined, 'sí', 'no'], slug).toContain(v);
+    }
+  });
+
+  test('image fields upload next to each entry so image() can resolve them', () => {
+    const cms = parse(readFileSync('public/admin/config.yml', 'utf8'));
+    for (const c of cms.collections) {
+      for (const scope of c.files ?? [c]) {
+        if (scope.fields.some((f: { widget?: string }) => f.widget === 'image')) {
+          expect(scope.media_folder, scope.name).toBe('');
+          expect(scope.public_folder, scope.name).toBe('');
+        }
+      }
+    }
+  });
+});

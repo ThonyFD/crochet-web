@@ -71,7 +71,7 @@ for (const { n, slug, ...p } of products) {
     description: p.description,
     ...(p.measures && { measures: p.measures }),
     ...(p.colors && { colors: p.colors }),
-    ...(p.customizable !== undefined && { customizable: p.customizable }),
+    ...(p.customizable !== undefined && { customizable: p.customizable ? 'sí' : 'no' }),
     shipping: 'todo Panamá',
     ...(p.availability && { availability: p.availability }),
     featured: p.featured ?? false,
