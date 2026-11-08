@@ -1,0 +1,277 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import CutoutTitle from './CutoutTitle.astro';
+import Polaroid from './Polaroid.astro';
+import StickerButton from './StickerButton.astro';
+import Deco from './Deco.astro';
+import { featuredProducts } from '../lib/catalog';
+import { formatPrice } from '../lib/pricing';
+import { genericMessage, whatsappUrl } from '../lib/whatsapp';
+import type { Product } from '../lib/content';
+
+interface Props {
+  products: Product[];
+  tagline: string;
+  whatsapp: string;
+}
+
+const { products, tagline, whatsapp } = Astro.props;
+const picks = featuredProducts(products);
+const tapes = ['pink', 'yellow', 'blue'] as const;
+// The bubble price goes on the first and last photo, like the mockup.
+const bubbles = [true, false, true];
+
+const UNDERLINED = 'tejidos a mano';
+const at = tagline.indexOf(UNDERLINED);
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="in">
+    <div class="collage">
+      <div class="blk blk1 gingham torn" aria-hidden="true"></div>
+      <div class="blk blk2 dots torn" aria-hidden="true"></div>
+      <div class="blk blk3 stripes torn" aria-hidden="true"></div>
+      <div class="blk bang burst" aria-hidden="true"></div>
+      {
+        picks.map((p, i) => (
+          <Polaroid
+            class={`pic pic${i + 1}`}
+            image={p.data.photos[0]}
+            alt={p.name}
+            caption={p.name}
+            href={`/tejidos/${p.id}/`}
+            tape={tapes[i]}
+            price={bubbles[i] && p.priceMode !== 'consultar' ? formatPrice(p) : undefined}
+            priceStyle="bubble"
+            widths={[240, 360, 480]}
+            sizes="(max-width: 899px) 42vw, 230px"
+            loading="eager"
+          />
+        ))
+      }
+      <Deco kind="star" color="var(--yellow-400)" class="d1" />
+      <Deco kind="star" color="var(--orange-400)" size={46} class="d2" />
+      <Deco kind="heart" color="var(--pink-400)" size={30} class="d3" />
+      <Deco kind="star" color="var(--yellow-400)" size={24} class="d4" />
+    </div>
+
+    <div class="title">
+      <CutoutTitle text="Stars & Stuff" as="h1" />
+      <p class="tagline">
+        {
+          at >= 0 ? (
+            <>
+              {tagline.slice(0, at)}
+              <span class="uline">{UNDERLINED}</span>
+              {tagline.slice(at + UNDERLINED.length)}
+            </>
+          ) : (
+            tagline
+          )
+        }
+      </p>
+      <div class="cta">
+        <StickerButton href={whatsappUrl(whatsapp, genericMessage())}>💬 Pídelo por WhatsApp</StickerButton>
+        <span class="hand note" aria-hidden="true">← ¡responde rapidito!</span>
+      </div>
+    </div>
+
+    <Image src={logo} alt="" width={120} height={120} densities={[1, 2]} class="logo patch" loading="eager" />
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--cream);
+    overflow: hidden;
+  }
+  .in {
+    position: relative;
+    max-width: var(--max);
+    margin: 0 auto;
+    min-height: 520px;
+  }
+  .collage {
+    position: absolute;
+    inset: 0;
+  }
+  .blk {
+    position: absolute;
+  }
+  .blk1 {
+    top: 40px;
+    left: -20px;
+    width: 46%;
+    height: 280px;
+    transform: rotate(-3deg);
+  }
+  .blk2 {
+    top: 220px;
+    right: -30px;
+    width: 44%;
+    height: 300px;
+    transform: rotate(2deg);
+  }
+  .blk3 {
+    bottom: -20px;
+    left: 28%;
+    width: 30%;
+    height: 140px;
+    transform: rotate(-1deg);
+  }
+  .bang {
+    top: 250px;
+    left: 150px;
+    width: 150px;
+    height: 150px;
+    background: var(--pink-400);
+    z-index: 2;
+  }
+  .collage :global(.pic) {
+    position: absolute;
+  }
+  .collage :global(.pic1) {
+    top: 60px;
+    left: 40px;
+    width: 230px;
+    transform: rotate(-6deg);
+    z-index: 3;
+  }
+  .collage :global(.pic2) {
+    top: 270px;
+    left: 230px;
+    width: 190px;
+    transform: rotate(5deg);
+    z-index: 4;
+  }
+  .collage :global(.pic3) {
+    top: 300px;
+    right: 60px;
+    width: 200px;
+    transform: rotate(-3deg);
+    z-index: 3;
+  }
+  .collage :global(.d1) {
+    top: 30px;
+    left: 44%;
+  }
+  .collage :global(.d2) {
+    top: 250px;
+    left: 44%;
+  }
+  .collage :global(.d3) {
+    bottom: 40px;
+    left: 20px;
+  }
+  .collage :global(.d4) {
+    bottom: 30px;
+    right: 30%;
+  }
+  .title {
+    position: absolute;
+    top: 60px;
+    left: 46%;
+    right: 30px;
+    z-index: 5;
+  }
+  .tagline {
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 16px 0 20px;
+    max-width: 360px;
+    background: rgba(251, 246, 234, 0.92);
+    padding: 6px 8px;
+  }
+  .cta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+  }
+  .note {
+    font-size: 22px;
+  }
+  .in :global(.patch) {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 120px;
+    height: auto;
+    transform: rotate(10deg);
+    z-index: 6;
+  }
+
+  /* Mobile: text first, then the collage, nothing covers the text */
+  @media (max-width: 899px) {
+    .in {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .title {
+      position: relative;
+      inset: auto;
+      order: 1;
+      padding: 28px 16px 8px;
+      padding-right: 92px;
+    }
+    .collage {
+      position: relative;
+      order: 2;
+      height: 380px;
+    }
+    .blk1 {
+      top: 20px;
+      width: 70%;
+      height: 210px;
+    }
+    .blk2 {
+      top: 150px;
+      width: 62%;
+      height: 230px;
+    }
+    .blk3 {
+      left: 20%;
+      width: 50%;
+      height: 90px;
+    }
+    .bang {
+      top: 170px;
+      left: 30%;
+      width: 110px;
+      height: 110px;
+    }
+    .collage :global(.pic1) {
+      top: 30px;
+      left: 4%;
+      width: 44%;
+    }
+    .collage :global(.pic2) {
+      top: 175px;
+      left: 30%;
+      width: 38%;
+    }
+    .collage :global(.pic3) {
+      top: 50px;
+      right: 5%;
+      width: 40%;
+    }
+    .collage :global(.d1) {
+      top: 4px;
+      left: 46%;
+    }
+    .collage :global(.d2) {
+      top: auto;
+      bottom: 30px;
+      left: auto;
+      right: 8%;
+    }
+    .in :global(.patch) {
+      top: 16px;
+      right: 12px;
+      width: 76px;
+    }
+  }
+</style>

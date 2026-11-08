@@ -1,23 +1,18 @@
 ---
-import '../styles/tokens.css';
-import '../styles/scrapbook.css';
-import CutoutTitle from '../components/CutoutTitle.astro';
-import Polaroid from '../components/Polaroid.astro';
-import StickerButton from '../components/StickerButton.astro';
-import Deco from '../components/Deco.astro';
-import { getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Catalog from '../components/Catalog.astro';
+import About from '../components/About.astro';
+import { getCategories, getProducts, getSettings } from '../lib/content';
 
-const kitty = await getEntry('products', 'cosmic-kitty');
+const [products, categories, site] = await Promise.all([getProducts(), getCategories(), getSettings()]);
 ---
-<html lang="es">
-  <head><meta charset="utf-8" /><title>Stars & Stuff</title></head>
-  <body style="padding:40px;position:relative">
-    <CutoutTitle text="Stars & Stuff" as="h1" />
-    <div style="width:240px;margin:40px;position:relative">
-      <Polaroid image={kitty!.data.photos[0]} alt="Cosmic Kitty" caption="Cosmic Kitty" price="$15" waHref="https://wa.me/1" href="#" />
-    </div>
-    <StickerButton href="https://wa.me/1">💬 Pídelo por WhatsApp</StickerButton>
-    <Deco kind="star" color="#ffd23f" style="top:10px;right:20px" />
-    <Deco kind="heart" color="#ff5fa2" style="top:60px;right:60px" />
-  </body>
-</html>
+
+<Base
+  title="Stars & Stuff | Crochet hecho a mano en Panamá"
+  description="Amigurumis, flores y accesorios tejidos a mano en Panamá. Colores a tu gusto y pedidos por WhatsApp."
+>
+  <Hero products={products} tagline={site.heroTagline} whatsapp={site.whatsapp} />
+  <Catalog products={products} categories={categories} whatsapp={site.whatsapp} />
+  <About title={site.aboutTitle} text={site.aboutText} photo={site.aboutPhoto} />
+</Base>

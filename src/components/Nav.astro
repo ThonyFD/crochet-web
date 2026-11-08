@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import { getSettings } from '../lib/content';
+
+const site = await getSettings();
+---
+
+<header class="nav">
+  <a class="brand" href="/">
+    <Image src={logo} alt="" width={58} height={58} densities={[1, 2]} class="logo" loading="eager" />
+    <span class="hand">Stars &amp; Stuff</span>
+  </a>
+  <nav aria-label="Principal">
+    <ul>
+      <li><a href="/#tejidos">tejidos</a></li>
+      <li><a href="/#sobre-mi">sobre mí</a></li>
+      <li><a href="#pedidos">pedidos</a></li>
+      <li><a class="ig" href={site.instagram} target="_blank" rel="noopener">IG ♡</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    padding: 10px clamp(16px, 4vw, 28px);
+    background: var(--cream);
+    border-bottom: 2px dashed var(--dash);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .brand .hand {
+    font-size: 26px;
+    font-weight: 700;
+  }
+  ul {
+    display: flex;
+    gap: 18px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-hand);
+    font-size: 22px;
+  }
+  ul a {
+    text-decoration: none;
+  }
+  ul a:hover {
+    text-decoration: underline wavy var(--pink-400);
+  }
+  .ig {
+    color: var(--pink-text);
+  }
+  @media (max-width: 640px) {
+    nav {
+      width: 100%;
+    }
+    ul {
+      justify-content: space-between;
+    }
+  }
+</style>

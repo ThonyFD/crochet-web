@@ -1,0 +1,112 @@
+---
+import Polaroid from './Polaroid.astro';
+import Deco from './Deco.astro';
+import { usedCategories, visibleSorted } from '../lib/catalog';
+import { formatPrice } from '../lib/pricing';
+import { productMessage, whatsappUrl } from '../lib/whatsapp';
+import type { Product } from '../lib/content';
+import type { CategoryLike } from '../lib/types';
+
+interface Props {
+  products: Product[];
+  categories: CategoryLike[];
+  whatsapp: string;
+}
+
+const { products, categories, whatsapp } = Astro.props;
+const items = visibleSorted(products);
+const cats = usedCategories(categories, products);
+const tapes = ['pink', 'blue', 'yellow'] as const;
+const pageUrl = (id: string) => new URL(`/tejidos/${id}/`, Astro.site).href;
+---
+
+<section id="tejidos" class="cat dotted-paper" aria-labelledby="tejidos-title">
+  <div class="in">
+    <h2 id="tejidos-title" class="label-dashed">✂ nuestros tejidos</h2>
+    <div class="filters" role="group" aria-label="Filtrar por categoría">
+      <button type="button" class="pill" data-filter="todo" aria-pressed="true">todo</button>
+      {
+        cats.map((c) => (
+          <button type="button" class="pill" data-filter={c.id} aria-pressed="false">
+            {c.label}
+          </button>
+        ))
+      }
+    </div>
+    <ul class="grid">
+      {
+        items.map((p, i) => (
+          <li data-category={p.category}>
+            <Polaroid
+              image={p.data.photos[0]}
+              alt={p.name}
+              caption={p.name}
+              href={`/tejidos/${p.id}/`}
+              price={formatPrice(p)}
+              waHref={whatsappUrl(whatsapp, productMessage(p, pageUrl(p.id)))}
+              tape={tapes[i % 3]}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <Deco kind="star" color="var(--yellow-400)" style="top:30px;right:40px" />
+</section>
+
+<script>
+  const root = document.getElementById('tejidos');
+  root?.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      root.querySelectorAll('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      root.querySelectorAll<HTMLElement>('[data-category]').forEach((li) => {
+        li.hidden = f !== 'todo' && li.dataset.category !== f;
+      });
+    });
+  });
+</script>
+
+<style>
+  .cat {
+    position: relative;
+    padding: 36px clamp(16px, 4vw, 40px) 50px;
+    scroll-margin-top: 10px;
+  }
+  .in {
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  .filters {
+    display: flex;
+    gap: 10px;
+    margin: 22px 0 30px;
+    flex-wrap: wrap;
+  }
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px 22px;
+  }
+  .grid li:nth-child(4n + 1) :global(.polaroid) {
+    transform: rotate(-2deg);
+  }
+  .grid li:nth-child(4n + 2) :global(.polaroid) {
+    transform: rotate(1.5deg);
+  }
+  .grid li:nth-child(4n + 3) :global(.polaroid) {
+    transform: rotate(-1deg);
+  }
+  .grid li:nth-child(4n + 4) :global(.polaroid) {
+    transform: rotate(2deg);
+  }
+  @media (max-width: 899px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 26px 16px;
+    }
+  }
+</style>
